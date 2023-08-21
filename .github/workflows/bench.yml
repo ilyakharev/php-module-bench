@@ -27,7 +27,7 @@ jobs:
           - key: gd
             value: apt-get install -y phpVERSION-gd
           - key: imagick
-            value: apt-get install phpVERSION-imagick
+            value: apt-get install -y phpVERSION-imagick
           - key: mbstring
             value: apt-get install -y phpVERSION-mbstring
           - key: mysqlnd
