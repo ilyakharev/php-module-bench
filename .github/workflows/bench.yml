@@ -1,4 +1,4 @@
-name: tim
+name: benchmark
 
 on:
   pull_request:
@@ -50,7 +50,8 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
-      - run: export install="${${{matrix.ext.value}}/VERSION/"${{matrix.php}}"}"
+      - run: export val="${{matrix.ext.value}}"
+      - run: export install="${val/VERSION/"${{matrix.php}}"}"
       - run: echo $install
       - name: Build docker image
         run: docker build -t ubuntu-${{matrix.ext.key}} --build-arg PHP=${{matrix.php}} --build-arg VERSION="${install}" .
