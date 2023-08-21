@@ -1,0 +1,58 @@
+name: tim
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  bench:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        php:
+          - '7.2'
+          - '7.4'
+          - '8.0'
+          - '8.2'
+        ext:
+          - key: clear
+            value: echo clear
+          - key: apcu
+            value: apt-get install -y phpVERSION-apcu
+          - key: xdebug
+            value: apt-get install -y phpVERSION-xdebug
+          - key: gd
+            value: apt-get install -y phpVERSION-gd
+          - key: imagick
+            value: apt-get install phpVERSION-imagick
+          - key: mbstring
+            value: apt-get install -y phpVERSION-mbstring
+          - key: mysqlnd
+            value: apt-get install -y phpVERSION-mysqlnd
+          - key: simplexml
+            value: apt-get install -y phpVERSION-SimpleXML
+          - key: gmp
+            value: apt-get install -y phpVERSION-gmp
+          - key: bcmath
+            value: apt-get install -y phpVERSION-bcmath
+          - key: aerospike
+            value: apt-get install -y build-essential autoconf libssl-dev phpVERSION-dev php-pear; & \
+              composer require aerospike/aerospike-client-php & \
+              find vendor/aerospike/aerospike-client-php/ -name \"*.sh\" -exec chmod +x {} \; & \
+              cd vendor/aerospike/aerospike-client-php/ && composer run-script post-install-cmd & \
+              cd src && ./build.sh & \
+              cd src && make install && php -i | grep \".ini \" & \
+              echo \"extension=aerospike.so
+              aerospike.udf.lua_user_path=/usr/local/aerospike/usr-lua\" >> /etc/php/VERSION/cli/conf.d/aerospike.ini
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+      - run: export install="${${{matrix.ext.value}}/VERSION/"${{matrix.php}}"}"
+      - run: echo $install
+      - name: Build docker image
+        run: docker build -t ubuntu-${{matrix.ext.key}} --build-arg PHP=${{matrix.php}} --build-arg VERSION="${install}" .
+      - name: Run
+        run: docker run ubuntu-${{matrix.ext.key}} ${{matrix.php}} ${{matrix.ext.key}}
