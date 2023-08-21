@@ -53,8 +53,8 @@ jobs:
       - run: | 
           VAL="${{matrix.ext.value}}"
           INSTALL="${VAL/VERSION/"${{matrix.php}}"}"
-          echo INSTALL=${INSTALL} >> $GITHUB_ENV
-      - run: echo ${{env.INSTALL}}
+          echo INSTALL="${INSTALL}" >> $GITHUB_ENV
+      - run: echo "${{env.INSTALL}}"
       - name: Build docker image
         run: docker build -t ubuntu-${{matrix.ext.key}} --build-arg PHP=${{matrix.php}} --build-arg PRELOAD="${{env.INSTALL}}" .
       - name: Run
