@@ -54,6 +54,6 @@ jobs:
       - run: export install="${val/VERSION/"${{matrix.php}}"}"
       - run: echo $install
       - name: Build docker image
-        run: docker build -t ubuntu-${{matrix.ext.key}} --build-arg PHP=${{matrix.php}} --build-arg VERSION="${install}" .
+        run: docker build -t ubuntu-${{matrix.ext.key}} --build-arg PHP=${{matrix.php}} --build-arg PRELOAD="${install}" .
       - name: Run
         run: docker run ubuntu-${{matrix.ext.key}} ${{matrix.php}} ${{matrix.ext.key}}
