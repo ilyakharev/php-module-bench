@@ -41,12 +41,12 @@ jobs:
           - key: aerospike
             value: apt-get install -y build-essential autoconf libssl-dev phpVERSION-dev php-pear; & \
               composer require aerospike/aerospike-client-php & \
-              find vendor/aerospike/aerospike-client-php/ -name \"*.sh\" -exec chmod +x {} \; & \
+              find vendor/aerospike/aerospike-client-php/ -name '*.sh' -exec chmod +x {} \; & \
               cd vendor/aerospike/aerospike-client-php/ && composer run-script post-install-cmd & \
               cd src && ./build.sh & \
-              cd src && make install && php -i | grep \".ini \" & \
-              echo \"extension=aerospike.so
-              aerospike.udf.lua_user_path=/usr/local/aerospike/usr-lua\" >> /etc/php/VERSION/cli/conf.d/aerospike.ini
+              cd src && make install && php -i | grep '.ini ' & \
+              echo 'extension=aerospike.so
+              aerospike.udf.lua_user_path=/usr/local/aerospike/usr-lua' >> /etc/php/VERSION/cli/conf.d/aerospike.ini
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
