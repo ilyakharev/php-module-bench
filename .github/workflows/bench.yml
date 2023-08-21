@@ -19,7 +19,7 @@ jobs:
           - '8.2'
         ext:
           - key: clear
-            value: echo clear
+            value: echo VERSION
           - key: apcu
             value: apt-get install -y phpVERSION-apcu
           - key: xdebug
