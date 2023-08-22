@@ -1,9 +1,7 @@
 name: benchmark
 
 on:
-  pull_request:
-  push:
-    branches: [ main ]
+  workflow_call:
 
 jobs:
   bench:
@@ -41,7 +39,7 @@ jobs:
           - key: aerospike
             value: apt-get install -y build-essential autoconf libssl-dev phpVERSION-dev php-pear; & \
               composer require aerospike/aerospike-client-php & \
-              find vendor/aerospike/aerospike-client-php/ -name '*.sh' -exec chmod +x {} \; & \
+              find vendor/aerospike/aerospike-client-php/ --name '*.sh' --exec chmod +x {} \; & \
               cd vendor/aerospike/aerospike-client-php/ && composer run-script post-install-cmd & \
               cd src && ./build.sh & \
               cd src && make install && php -i | grep '.ini ' & \

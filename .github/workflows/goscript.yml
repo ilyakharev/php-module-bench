@@ -1,0 +1,13 @@
+name: go
+
+on:
+  workflow_call:
+
+jobs:
+  bench:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+      - run: ./php-module-bench

@@ -24,6 +24,7 @@ RUN mv composer.phar /usr/local/bin/composer
 RUN apt-get install -y git
 RUN composer update
 
+RUN echo "${PRELOAD}"
 RUN ${PRELOAD}
 
 ENTRYPOINT ["php", "app.php"]

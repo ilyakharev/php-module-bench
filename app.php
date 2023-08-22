@@ -50,7 +50,7 @@ $latency = [];
 $registry = new CollectorRegistry(new \Prometheus\Storage\InMemory);
 $pushGateway = new \PrometheusPushGateway\PushGateway('http://158.160.25.12:9091');
 $summary = $registry->getOrRegisterSummary('', 'sing_latancy', '', ['version', 'ext'], 600, [0.5,0.99]);
-for ($i = 0; $i < 10001; $i++) {
+for ($i = 0; $i < 11; $i++) {
     $start = microtime(true);
     $token = (new Jwt($privateKey, $keyId))
         ->issuedBy($serviceId)
